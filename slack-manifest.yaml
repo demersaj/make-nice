@@ -1,0 +1,25 @@
+display_information:
+  name: Make Nice
+  description: Transform your messages to be work-appropriate and well-formatted using AI
+  background_color: "#2eb886"
+features:
+  slash_commands:
+    - command: /make-nice
+      description: Transform your message to be work-appropriate and professional
+      usage_hint: your message here
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - commands
+      - chat:write
+      - chat:write.public
+settings:
+  event_subscriptions:
+    bot_events: []
+  interactivity:
+    is_enabled: false
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false
+
