@@ -50,11 +50,31 @@ class LLMHandler:
                 'Cannot connect to LLM API. Please check your LLM_API_ENDPOINT configuration.'
             )
         except requests.exceptions.HTTPError as e:
-            raise ConnectionError(f'LLM API error: {e.response.status_code} - {e.response.reason}')
+            # Get more details about 400 errors
+            error_details = f'{e.response.status_code} - {e.response.reason}'
+            try:
+                error_body = e.response.json()
+                if isinstance(error_body, dict):
+                    if 'error' in error_body:
+                        error_msg = error_body['error']
+                        if isinstance(error_msg, dict) and 'message' in error_msg:
+                            error_details += f': {error_msg["message"]}'
+                        elif isinstance(error_msg, str):
+                            error_details += f': {error_msg}'
+                    elif 'message' in error_body:
+                        error_details += f': {error_body["message"]}'
+            except:
+                # If we can't parse JSON, use text
+                try:
+                    error_details += f': {e.response.text[:200]}'
+                except:
+                    pass
+            
+            raise ConnectionError(f'LLM API error: {error_details}')
     
     def _build_prompt(self, original_message: str) -> str:
         """Build the prompt for the LLM."""
-        return f"""You are a professional workplace communication assistant. 
+        return f"""You are a professional workplace communication assistant for Slack. 
 Transform the following message to be work-appropriate, professional, and well-formatted. 
 Preserve the original intent but make it suitable for a workplace environment. Do not include a signature.
 Return ONLY the improved message without any additional commentary. 
@@ -79,6 +99,7 @@ Improved message:"""
             }
         
         elif self.api_type == 'anthropic':
+            # Anthropic API expects different format
             return {
                 'model': self.model,
                 'messages': [
@@ -87,7 +108,8 @@ Improved message:"""
                         'content': prompt
                     }
                 ],
-                'max_tokens': self.max_tokens
+                'max_tokens': self.max_tokens,
+                'stream': False
             }
         
         else:

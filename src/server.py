@@ -37,15 +37,23 @@ def handle_make_nice(ack, respond, command):
     
     try:
         # Initialize LLM handler
+        llm_endpoint = os.environ.get('LLM_API_ENDPOINT')
+        llm_api_key = os.environ.get('LLM_API_KEY')
+        llm_model = os.environ.get('LLM_MODEL', 'default')
+        llm_api_type = os.environ.get('LLM_API_TYPE', 'openai')
+        
+        logger.info(f'LLM Config - Endpoint: {llm_endpoint}, Type: {llm_api_type}, Model: {llm_model}')
+        
         llm_handler = LLMHandler({
-            'endpoint': os.environ.get('LLM_API_ENDPOINT'),
-            'apiKey': os.environ.get('LLM_API_KEY'),
-            'model': os.environ.get('LLM_MODEL', 'default'),
+            'endpoint': llm_endpoint,
+            'apiKey': llm_api_key,
+            'model': llm_model,
             'maxTokens': int(os.environ.get('LLM_MAX_TOKENS', 500)),
-            'apiType': os.environ.get('LLM_API_TYPE', 'openai')
+            'apiType': llm_api_type
         })
         
         # Transform the message using the LLM
+        logger.info(f'Transforming message: {text[:50]}...')
         improved_message = llm_handler.transform_message(text)
         
         # Respond to the Slack channel with the improved message
