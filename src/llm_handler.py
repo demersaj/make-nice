@@ -56,8 +56,8 @@ class LLMHandler:
         """Build the prompt for the LLM."""
         return f"""You are a professional workplace communication assistant. 
 Transform the following message to be work-appropriate, professional, and well-formatted. 
-Preserve the original intent but make it suitable for a workplace environment. 
-Return ONLY the improved message without any additional commentary.
+Preserve the original intent but make it suitable for a workplace environment. Do not include a greeting or signature.
+Return ONLY the improved message without any additional commentary. 
 
 Original message: {original_message}
 

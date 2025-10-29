@@ -1,6 +1,3 @@
-"""
-Main entry point for the Make Nice Slack App.
-"""
 import os
 import sys
 from dotenv import load_dotenv
@@ -32,6 +29,6 @@ if __name__ == "__main__":
     
     # Start the app
     handler = SocketModeHandler(app, app_token)
-    logger.info('⚡️ Make Nice Slack app is running!')
+    logger.info('Make Nice Slack app is running!')
     handler.start()
 

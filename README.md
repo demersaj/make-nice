@@ -43,11 +43,19 @@ A Slack app that transforms your messages into work-appropriate, professional, a
 
 4. **Create a Slack App**
    
+   You can either use the manifest file or manually configure the app:
+   
+   **Option A: Use Manifest (Quick)**
    - Go to https://api.slack.com/apps
    - Click "Create New App" → "From manifest"
    - Select your workspace
    - Copy the contents of `slack-manifest.yaml` into the manifest editor
    - Click "Create"
+   - Follow the app creation prompts to get your tokens
+   
+   **Option B: Manual Setup (Recommended)**
+   - See detailed instructions in [SETUP_MANUAL.md](SETUP_MANUAL.md)
+   - Step-by-step guide for manually configuring all settings
 
 5. **Get your tokens**
    
