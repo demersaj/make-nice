@@ -94,7 +94,7 @@ Improved message:"""
                         'content': prompt
                     }
                 ],
-                'temperature': 0.7,
+                'temperature': 0.4,
                 'max_tokens': self.max_tokens
             }
         
